@@ -1,0 +1,54 @@
+<apex:page controller="cms.CreateContentController" extensions="WeatherYahoo" showHeader="false"
+    sidebar="false" cache="false" title="Orchestra CMS" standardStylesheets="false">
+    <script>
+$(document).ready(init);
+
+function init() {
+    var isEnabled = ocmsEditorAPI.getEnabled();
+
+    ce.content_editor('registerSaveFunction', getAttributes);
+
+    $('#defaultLocation').val('{!JSENCODE(defaultLocation)}');
+
+    if(isEnabled) {
+        $('input, textarea').removeAttr('disabled');
+    }
+}
+
+function getAttributes() {
+    var attributes = [];
+
+    attributes.push({
+        name: 'defaultLocation',
+        value: $('#defaultLocation').val(),
+        type: 'Text',
+        simple: true,
+        lang: ''
+    });
+
+    return attributes;
+}
+    </script>
+    <form>
+        <table class="ocmsContentEditor ocmsContentEditorNested">
+            <tr class="ocmsEditorSubtitle">
+                <td>Weather Settings</td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label for="defaultLocation">Default Location:</label>
+                    <input type="text" class="ocmsTextInputLrg" id="defaultLocation" disabled="disabled" />
+                    <p class="ocmsHelpText">
+                        Examples:
+                        <ul>
+                            <li>Kingston, ON, Canada</li>
+                            <li>Sydney, Australia</li>
+                            <li>New York, NY</li>
+                        </ul>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </form>
+</apex:page>
